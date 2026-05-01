@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gasjersey – Le Maillot Avant Tout</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --border: #252525;
+    --accent: #c8ff00;
+    --accent-dark: #9abf00;
+    --text: #f0f0f0;
+    --muted: #666666;
+    --card-bg: #141414;
+    --red: #ff3b3b;
+    --gold: #f5c842;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+  ::selection { background: var(--accent); color: #000; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; width: 100%; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  /* ─── HEADER ─── */
+  #header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 70px;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    transition: all .3s;
+  }
+  #header.scrolled { height: 60px; background: rgba(8,8,8,0.97); }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    position: relative;
+  }
+  .logo span { color: var(--text); }
+  .nav { display: flex; gap: 8px; }
+  .nav-btn {
+    background: none; border: none; color: var(--text);
+    font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500;
+    letter-spacing: .5px; padding: 8px 16px; border-radius: 6px;
+    cursor: pointer; transition: all .2s; position: relative;
+  }
+  .nav-btn:hover, .nav-btn.active { color: var(--accent); }
+  .nav-btn.active::after {
+    content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 4px; background: var(--accent); border-radius: 50%;
+  }
+  .header-actions { display: flex; align-items: center; gap: 12px; }
+  .icon-btn {
+    background: none; border: none; color: var(--text);
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .2s; font-size: 18px; position: relative;
+  }
+  .icon-btn:hover { background: var(--surface2); color: var(--accent); }
+  .cart-count {
+    position: absolute; top: 4px; right: 4px;
+    width: 17px; height: 17px; border-radius: 50%;
+    background: var(--accent); color: #000;
+    font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    display: none;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    padding: 70px 40px 0;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 80% at 60% 40%, rgba(200,255,0,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 60% at 80% 80%, rgba(200,255,0,0.04) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: .04;
+    background-image: 
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 650px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(200,255,0,0.1); border: 1px solid rgba(200,255,0,0.3);
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 12px; font-weight: 500; letter-spacing: 1px;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeInUp .8s ease forwards;
+  }
+  .hero-badge::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--accent); border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.3} }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 10vw, 120px);
+    line-height: .9;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    animation: fadeInUp .8s .1s ease both;
+  }
+  .hero-title em { color: var(--accent); font-style: normal; display: block; }
+  .hero-sub {
+    font-size: 16px; font-weight: 300; color: var(--muted);
+    line-height: 1.7; max-width: 460px;
+    margin-bottom: 40px;
+    animation: fadeInUp .8s .2s ease both;
+  }
+  .hero-ctas {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeInUp .8s .3s ease both;
+  }
+  .btn-primary {
+    background: var(--accent); color: #000;
+    border: none; padding: 14px 32px; border-radius: 10px;
+    font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700;
+    letter-spacing: .5px; cursor: pointer; transition: all .2s;
+  }
+  .btn-primary:hover { background: #d8ff20; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,255,0,.3); }
+  .btn-outline {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border); padding: 14px 32px; border-radius: 10px;
+    font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: all .2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .hero-stats {
+    position: absolute; right: 40px; bottom: 80px;
+    display: flex; flex-direction: column; gap: 32px;
+    animation: fadeInRight .8s .4s ease both;
+  }
+  .stat { text-align: right; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px; color: var(--accent); line-height: 1;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .hero-scroll {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--muted); font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    animation: fadeIn 1s 1s ease both;
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(var(--accent), transparent);
+    animation: scrollLine 2s infinite;
+  }
+  @keyframes scrollLine { 0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1)}100%{transform:scaleY(0);transform-origin:bottom} }
+
+  /* ─── MARQUEE ─── */
+  .marquee-wrap {
+    background: var(--accent); overflow: hidden;
+    padding: 12px 0; white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-flex; gap: 0;
+    animation: marquee 25s linear infinite;
+  }
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px; letter-spacing: 2px;
+    color: #000; padding: 0 30px;
+  }
+  .marquee-dot { color: #000; opacity: .4; }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 100px 40px; }
+  .section-header {
+    display: flex; align-items: flex-end;
+    justify-content: space-between; margin-bottom: 60px;
+  }
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 56px); letter-spacing: 1px; line-height: 1;
+  }
+  .section-link {
+    font-size: 13px; font-weight: 500; color: var(--muted);
+    border-bottom: 1px solid var(--border); padding-bottom: 2px;
+    cursor: pointer; transition: all .2s; white-space: nowrap; margin-bottom: 4px;
+  }
+  .section-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ─── JERSEY CARDS ─── */
+  .jersey-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .jersey-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+    cursor: pointer; position: relative;
+    transition: all .3s; transform: translateY(20px); opacity: 0;
+  }
+  .jersey-card.visible { transform: translateY(0); opacity: 1; }
+  .jersey-card:hover { border-color: rgba(200,255,0,.3); transform: translateY(-6px) !important; box-shadow: 0 20px 40px rgba(0,0,0,.4); }
+  .card-img-wrap {
+    position: relative; height: 260px; overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-img-wrap .jersey-emoji {
+    font-size: 110px; line-height: 1;
+    transition: transform .4s;
+    user-select: none;
+  }
+  .jersey-card:hover .jersey-emoji { transform: scale(1.08) rotate(-3deg); }
+  .card-badge {
+    position: absolute; top: 12px; left: 12px;
+    padding: 4px 10px; border-radius: 6px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px;
+  }
+  .badge-promo { background: var(--red); color: #fff; }
+  .badge-new { background: var(--accent); color: #000; }
+  .badge-hot { background: var(--gold); color: #000; }
+  .fav-btn {
+    position: absolute; top: 12px; right: 12px;
+    width: 34px; height: 34px; border-radius: 8px;
+    background: rgba(8,8,8,.8); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px; transition: all .2s;
+    color: var(--muted);
+  }
+  .fav-btn:hover, .fav-btn.active { color: var(--red); background: rgba(255,59,59,.15); border-color: rgba(255,59,59,.3); }
+  .card-body { padding: 16px 18px 20px; }
+  .card-club { font-size: 11px; color: var(--muted); font-weight: 500; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+  .card-name { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .card-price { display: flex; align-items: baseline; gap: 8px; }
+  .price-now { font-size: 20px; font-weight: 700; color: var(--accent); }
+  .price-old { font-size: 13px; color: var(--muted); text-decoration: line-through; }
+  .card-add {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--accent); color: #000;
+    border: none; cursor: pointer; font-size: 20px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+  }
+  .card-add:hover { background: #d8ff20; transform: scale(1.08); }
+
+  /* ─── PROMO BANNER ─── */
+  .promo-banner {
+    background: linear-gradient(135deg, var(--surface) 0%, #1e2500 100%);
+    border: 1px solid rgba(200,255,0,.15);
+    border-radius: 24px; padding: 60px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    overflow: hidden; position: relative;
+    margin: 0 0 100px;
+  }
+  .promo-banner::before {
+    content: ''; position: absolute;
+    right: -80px; top: -80px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,255,0,.08) 0%, transparent 70%);
+  }
+  .promo-text { position: relative; z-index: 1; }
+  .promo-kicker { font-size: 12px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .promo-title { font-family: 'Bebas Neue', sans-serif; font-size: 64px; line-height: .95; margin-bottom: 16px; }
+  .promo-title strong { color: var(--accent); }
+  .promo-desc { color: var(--muted); font-size: 15px; line-height: 1.6; max-width: 420px; }
+  .promo-emoji { font-size: 150px; position: relative; z-index: 1; animation: float 4s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
+
+  /* ─── CATEGORIES GRID ─── */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .cat-card {
+    border-radius: 16px; overflow: hidden; position: relative;
+    height: 200px; cursor: pointer;
+    border: 1px solid var(--border);
+    transition: all .3s;
+    transform: translateY(20px); opacity: 0;
+  }
+  .cat-card.visible { transform: translateY(0); opacity: 1; }
+  .cat-card:hover { transform: translateY(-4px) scale(1.01) !important; border-color: rgba(200,255,0,.3); }
+  .cat-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: transform .5s;
+  }
+  .cat-card:hover .cat-bg { transform: scale(1.05); }
+  .cat-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 60%);
+    display: flex; align-items: flex-end;
+    padding: 24px;
+  }
+  .cat-info {}
+  .cat-count { font-size: 11px; color: var(--accent); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+  .cat-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; }
+  .cat-emoji-bg { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 70px; opacity: .25; }
+
+  /* ─── CART SIDEBAR ─── */
+  .cart-overlay {
+    position: fixed; inset: 0; z-index: 2000;
+    background: rgba(0,0,0,.6);
+    opacity: 0; visibility: hidden; transition: all .3s;
+  }
+  .cart-overlay.open { opacity: 1; visibility: visible; }
+  .cart-panel {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: 420px; background: var(--surface); z-index: 2001;
+    border-left: 1px solid var(--border);
+    transform: translateX(100%); transition: transform .4s cubic-bezier(.4,0,.2,1);
+    display: flex; flex-direction: column;
+  }
+  .cart-overlay.open .cart-panel { transform: translateX(0); }
+  .cart-header {
+    padding: 24px 28px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .cart-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; }
+  .close-btn {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--surface2); border: none; color: var(--text);
+    cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+  }
+  .close-btn:hover { background: var(--border); }
+  .cart-items { flex: 1; overflow-y: auto; padding: 20px 28px; }
+  .cart-empty { text-align: center; padding: 80px 0; }
+  .cart-empty-icon { font-size: 60px; margin-bottom: 16px; opacity: .3; }
+  .cart-empty p { color: var(--muted); font-size: 14px; }
+  .cart-item {
+    display: flex; gap: 14px; padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    animation: fadeInRight .3s ease;
+  }
+  .cart-item-img {
+    width: 70px; height: 70px; border-radius: 10px;
+    background: var(--surface2); display: flex; align-items: center; justify-content: center;
+    font-size: 40px; flex-shrink: 0;
+  }
+  .cart-item-info { flex: 1; }
+  .cart-item-name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .cart-item-meta { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .cart-item-footer { display: flex; align-items: center; justify-content: space-between; }
+  .cart-item-price { font-size: 16px; font-weight: 700; color: var(--accent); }
+  .qty-control { display: flex; align-items: center; gap: 8px; }
+  .qty-btn {
+    width: 26px; height: 26px; border-radius: 6px;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); cursor: pointer; font-size: 14px;
+    display: flex; align-items: center; justify-content: center; transition: all .15s;
+  }
+  .qty-btn:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+  .qty-num { font-size: 14px; font-weight: 600; min-width: 20px; text-align: center; }
+  .cart-footer {
+    padding: 24px 28px; border-top: 1px solid var(--border);
+  }
+  .cart-total { display: flex; justify-content: space-between; margin-bottom: 20px; }
+  .cart-total-label { font-size: 14px; color: var(--muted); }
+  .cart-total-price { font-size: 24px; font-weight: 700; }
+  .btn-checkout {
+    width: 100%; background: var(--accent); color: #000;
+    border: none; padding: 16px; border-radius: 12px;
+    font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: all .2s;
+  }
+  .btn-checkout:hover { background: #d8ff20; transform: translateY(-1px); }
+
+  /* ─── MODAL (Auth / Product) ─── */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 3000;
+    background: rgba(0,0,0,.75); backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: all .3s;
+    padding: 20px;
+  }
+  .modal-overlay.open { opacity: 1; visibility: visible; }
+  .modal {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 24px; width: 100%; max-width: 440px;
+    padding: 36px; position: relative;
+    transform: scale(.95) translateY(20px);
+    transition: transform .3s;
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+  .modal-close {
+    position: absolute; top: 20px; right: 20px;
+    width: 34px; height: 34px; border-radius: 8px;
+    background: var(--surface2); border: none; color: var(--text);
+    cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center;
+  }
+  .modal-close:hover { background: var(--border); }
+  .modal-logo { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--accent); letter-spacing: 2px; margin-bottom: 8px; }
+  .modal-title { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+  .modal-sub { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+  .tab-row { display: flex; gap: 4px; margin-bottom: 28px; background: var(--surface2); border-radius: 10px; padding: 4px; }
+  .tab-btn {
+    flex: 1; padding: 10px; border-radius: 8px; border: none;
+    font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all .2s; background: none; color: var(--muted);
+  }
+  .tab-btn.active { background: var(--accent); color: #000; }
+  .form-group { margin-bottom: 16px; }
+  .form-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 8px; display: block; }
+  .form-input {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 16px;
+    font-family: 'Outfit', sans-serif; font-size: 14px; color: var(--text);
+    outline: none; transition: all .2s;
+  }
+  .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(200,255,0,.1); }
+  .form-submit {
+    width: 100%; margin-top: 8px;
+    padding: 14px; border-radius: 10px;
+    border: none; background: var(--accent); color: #000;
+    font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: all .2s;
+  }
+  .form-submit:hover { background: #d8ff20; }
+  .auth-toggle { text-align: center; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .auth-toggle span { color: var(--accent); cursor: pointer; }
+
+  /* ─── PRODUCT MODAL ─── */
+  .product-modal { max-width: 560px; }
+  .product-modal-img {
+    width: 100%; height: 220px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--surface2), var(--border));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 120px; margin-bottom: 24px;
+    position: relative; overflow: hidden;
+  }
+  .product-modal-badge { position: absolute; top: 12px; left: 12px; }
+  .product-modal-name { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 1px; }
+  .product-modal-sub { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+  .product-modal-price { display: flex; align-items: baseline; gap: 12px; margin-bottom: 24px; }
+  .product-modal-price .price-now { font-size: 28px; }
+  .size-label { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .size-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+  .size-btn {
+    width: 52px; height: 44px; border-radius: 8px;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); font-family: 'Outfit', sans-serif;
+    font-size: 13px; font-weight: 600; cursor: pointer; transition: all .2s;
+  }
+  .size-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .size-btn.selected { background: var(--accent); color: #000; border-color: var(--accent); }
+  .size-btn.unavailable { opacity: .3; cursor: not-allowed; text-decoration: line-through; }
+  .product-actions { display: flex; gap: 12px; }
+  .btn-fav-modal {
+    width: 52px; height: 52px; border-radius: 12px;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--muted); font-size: 22px; cursor: pointer; transition: all .2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .btn-fav-modal:hover, .btn-fav-modal.active { color: var(--red); border-color: rgba(255,59,59,.3); background: rgba(255,59,59,.1); }
+
+  /* ─── USER MENU ─── */
+  .user-menu {
+    position: fixed; top: 80px; right: 40px; z-index: 1500;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; width: 240px; padding: 16px;
+    transform: scale(.95) translateY(-10px);
+    opacity: 0; visibility: hidden; transition: all .2s;
+  }
+  .user-menu.open { opacity: 1; visibility: visible; transform: scale(1) translateY(0); }
+  .user-menu-header { padding: 8px; margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 14px; }
+  .user-menu-name { font-size: 15px; font-weight: 600; }
+  .user-menu-email { font-size: 12px; color: var(--muted); }
+  .user-menu-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 8px;
+    font-size: 14px; cursor: pointer; transition: all .15s; color: var(--text);
+  }
+  .user-menu-item:hover { background: var(--surface2); color: var(--accent); }
+  .user-menu-item.danger:hover { color: var(--red); }
+
+  /* ─── FILTER BAR ─── */
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
+  .filter-chip {
+    padding: 8px 18px; border-radius: 100px;
+    border: 1px solid var(--border);
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all .2s; background: none; color: var(--muted);
+  }
+  .filter-chip:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-chip.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 700; }
+
+  /* ─── SHOP PAGE ─── */
+  #shop-page { display: none; padding-top: 120px; min-height: 100vh; }
+  #shop-page.active { display: block; }
+  #home-page { display: block; }
+  #home-page.hidden { display: none; }
+  #favorites-page { display: none; padding-top: 120px; min-height: 100vh; }
+  #favorites-page.active { display: block; }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 14px 24px; border-radius: 10px;
+    font-size: 14px; font-weight: 500;
+    z-index: 5000; opacity: 0; transition: all .3s;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--surface); border-top: 1px solid var(--border);
+    padding: 60px 40px 30px;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px; margin-bottom: 50px;
+  }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--accent); letter-spacing: 2px; margin-bottom: 14px; }
+  .footer-desc { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 280px; }
+  .footer-heading { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--text); margin-bottom: 16px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links li { font-size: 14px; color: var(--muted); cursor: pointer; transition: color .2s; }
+  .footer-links li:hover { color: var(--accent); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 24px; }
+  .footer-copy { font-size: 13px; color: var(--muted); }
+  .footer-socials { display: flex; gap: 8px; }
+  .social-btn { width: 36px; height: 36px; border-radius: 8px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; transition: all .2s; }
+  .social-btn:hover { background: var(--accent); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeInRight { from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)} }
+  @keyframes fadeIn { from{opacity:0}to{opacity:1} }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    #header { padding: 0 20px; }
+    .nav { display: none; }
+    section { padding: 60px 20px; }
+    .hero-stats { display: none; }
+    .cat-grid { grid-template-columns: 1fr 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 30px; }
+    .promo-banner { flex-direction: column; text-align: center; padding: 40px 30px; }
+    .promo-emoji { display: none; }
+    .cart-panel { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header id="header">
+  <div class="logo">Gas<span>jersey</span></div>
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showPage('home')">Accueil</button>
+    <button class="nav-btn" onclick="showPage('nations')">Nations</button>
+    <button class="nav-btn" onclick="showPage('clubs')">Clubs</button>
+    <button class="nav-btn" onclick="showPage('vintage')">Vintage</button>
+    <button class="nav-btn" onclick="showPage('all')">Boutique</button>
+    <button class="nav-btn" onclick="showFavoritesPage()">Favoris ♡</button>
+  </nav>
+  <div class="header-actions">
+    <button class="icon-btn" onclick="toggleCart()" title="Panier">
+      🛒
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <button class="icon-btn" onclick="toggleUserMenu()" title="Compte" id="userIconBtn">👤</button>
+  </div>
+</header>
+
+<!-- ─── USER MENU ─── -->
+<div class="user-menu" id="userMenu">
+  <div id="userMenuContent"></div>
+</div>
+
+<!-- ─── HOME PAGE ─── -->
+<div id="home-page">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-badge">⚽ Nouvelle collection 2025</div>
+      <h1 class="hero-title">Le Maillot<em>Avant Tout</em></h1>
+      <p class="hero-sub">Les maillots de foot les plus iconiques du monde. Nations, clubs, vintage — portez votre passion.</p>
+      <div class="hero-ctas">
+        <button class="btn-primary" onclick="showPage('all')">Explorer la boutique</button>
+        <button class="btn-outline" onclick="showPage('nations')">Voir les nations</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num" id="statJerseys">0</div>
+        <div class="stat-label">Maillots</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="statNations">0</div>
+        <div class="stat-label">Nations</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="statBrands">0</div>
+        <div class="stat-label">Marques</div>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="marqueeTrack"></div>
+  </div>
+
+  <!-- TRENDING -->
+  <section id="trending-section">
+    <div class="section-header">
+      <div>
+        <div class="section-label">⚡ Tendances</div>
+        <h2 class="section-title">Les plus populaires</h2>
+      </div>
+      <span class="section-link" onclick="showPage('all')">Voir tout →</span>
+    </div>
+    <div class="jersey-grid" id="trendingGrid"></div>
+  </section>
+
+  <!-- PROMO -->
+  <section style="padding-top:0">
+    <div class="promo-banner reveal">
+      <div class="promo-text">
+        <div class="promo-kicker">🔥 Offre limitée</div>
+        <div class="promo-title">Jusqu'à <strong>-40%</strong><br>sur le vintage</div>
+        <p class="promo-desc">Replongez dans l'histoire du football avec nos maillots iconiques des années 90 et 2000. Stock limité.</p>
+        <button class="btn-primary" style="margin-top:24px" onclick="showPage('vintage')">Voir les promos</button>
+      </div>
+      <div class="promo-emoji">👕</div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section style="padding-top:0">
+    <div class="section-header">
+      <div>
+        <div class="section-label">📂 Catégories</div>
+        <h2 class="section-title">Trouve ton style</h2>
+      </div>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card reveal" onclick="showPage('nations')" style="transition-delay:.0s">
+        <div class="cat-bg" style="background: linear-gradient(135deg, #0a1628 0%, #1a2f5e 100%);"></div>
+        <div class="cat-emoji-bg">🌍</div>
+        <div class="cat-overlay"><div class="cat-info"><div class="cat-count">14 maillots</div><div class="cat-name">Nations</div></div></div>
+      </div>
+      <div class="cat-card reveal" onclick="showPage('clubs')" style="transition-delay:.1s">
+        <div class="cat-bg" style="background: linear-gradient(135deg, #1a0a0a 0%, #3d1515 100%);"></div>
+        <div class="cat-emoji-bg">🏆</div>
+        <div class="cat-overlay"><div class="cat-info"><div class="cat-count">16 maillots</div><div class="cat-name">Clubs</div></div></div>
+      </div>
+      <div class="cat-card reveal" onclick="showPage('vintage')" style="transition-delay:.2s">
+        <div class="cat-bg" style="background: linear-gradient(135deg, #1a1500 0%, #3d3000 100%);"></div>
+        <div class="cat-emoji-bg">⏳</div>
+        <div class="cat-overlay"><div class="cat-info"><div class="cat-count">12 maillots</div><div class="cat-name">Vintage</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMOS -->
+  <section>
+    <div class="section-header">
+      <div>
+        <div class="section-label">🏷️ Promotions</div>
+        <h2 class="section-title">En ce moment</h2>
+      </div>
+      <span class="section-link" onclick="showPage('promo')">Voir tout →</span>
+    </div>
+    <div class="jersey-grid" id="promoGrid"></div>
+  </section>
+
+</div>
+<!-- /HOME -->
+
+<!-- ─── SHOP PAGE ─── -->
+<div id="shop-page">
+  <section>
+    <div class="section-header">
+      <div>
+        <div class="section-label" id="shopPageLabel">Boutique</div>
+        <h2 class="section-title" id="shopPageTitle">Tous les maillots</h2>
+      </div>
+    </div>
+    <div class="filter-bar" id="filterBar"></div>
+    <div class="jersey-grid" id="shopGrid"></div>
+  </section>
+</div>
+
+<!-- ─── FAVORITES PAGE ─── -->
+<div id="favorites-page">
+  <section>
+    <div class="section-header">
+      <div>
+        <div class="section-label">♡ Favoris</div>
+        <h2 class="section-title">Mes coups de cœur</h2>
+      </div>
+    </div>
+    <div class="jersey-grid" id="favGrid"></div>
+    <div id="favEmpty" style="display:none;text-align:center;padding:80px 0;color:var(--muted);">
+      <div style="font-size:60px;margin-bottom:16px">💔</div>
+      <p>Aucun favori pour l'instant.<br>Explore notre boutique et ajoute tes maillots préférés !</p>
+      <button class="btn-primary" style="margin-top:24px" onclick="showPage('all')">Explorer</button>
+    </div>
+  </section>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">Gasjersey</div>
+      <p class="footer-desc">La référence du maillot de foot authentique. Nations, clubs, vintage — portez votre passion avec style.</p>
+    </div>
+    <div>
+      <div class="footer-heading">Boutique</div>
+      <ul class="footer-links">
+        <li onclick="showPage('nations')">Nations</li>
+        <li onclick="showPage('clubs')">Clubs</li>
+        <li onclick="showPage('vintage')">Vintage</li>
+        <li onclick="showPage('promo')">Promotions</li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Aide</div>
+      <ul class="footer-links">
+        <li>Livraison</li>
+        <li>Retours</li>
+        <li>Guide des tailles</li>
+        <li>Contact</li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">À propos</div>
+      <ul class="footer-links">
+        <li>Notre histoire</li>
+        <li>Authenticité</li>
+        <li>Blog</li>
+        <li>Partenaires</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Gasjersey. Tous droits réservés.</span>
+    <div class="footer-socials">
+      <div class="social-btn">📷</div>
+      <div class="social-btn">🐦</div>
+      <div class="social-btn">📘</div>
+      <div class="social-btn">🎵</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── CART SIDEBAR ─── -->
+<div class="cart-overlay" id="cartOverlay" onclick="handleCartOverlayClick(event)">
+  <div class="cart-panel">
+    <div class="cart-header">
+      <div class="cart-title">Mon Panier</div>
+      <button class="close-btn" onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total">
+        <span class="cart-total-label">Total</span>
+        <span class="cart-total-price" id="cartTotal">0 €</span>
+      </div>
+      <button class="btn-checkout">Passer commande 🚀</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── AUTH MODAL ─── -->
+<div class="modal-overlay" id="authModal" onclick="handleModalClick(event,'authModal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+    <div class="modal-logo">Gasjersey</div>
+    <div class="modal-title" id="authTitle">Connexion</div>
+    <div class="modal-sub" id="authSub">Accède à tes favoris et ton panier.</div>
+    <div class="tab-row">
+      <button class="tab-btn active" id="loginTab" onclick="switchTab('login')">Se connecter</button>
+      <button class="tab-btn" id="registerTab" onclick="switchTab('register')">S'inscrire</button>
+    </div>
+    <div id="loginForm">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="loginEmail" placeholder="ton@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mot de passe</label>
+        <input class="form-input" type="password" id="loginPass" placeholder="••••••••">
+      </div>
+      <button class="form-submit" onclick="doLogin()">Se connecter</button>
+    </div>
+    <div id="registerForm" style="display:none">
+      <div class="form-group">
+        <label class="form-label">Pseudo</label>
+        <input class="form-input" type="text" id="regName" placeholder="Ton pseudo">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" id="regEmail" placeholder="ton@email.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mot de passe</label>
+        <input class="form-input" type="password" id="regPass" placeholder="••••••••">
+      </div>
+      <button class="form-submit" onclick="doRegister()">Créer mon compte</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PRODUCT MODAL ─── -->
+<div class="modal-overlay" id="productModal" onclick="handleModalClick(event,'productModal')">
+  <div class="modal product-modal" id="productModalContent"></div>
+</div>
+
+<!-- ─── TOAST ─── -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════
+const JERSEYS = [
+  // NATIONS
+  { id:1, name:'France Home 2024', club:'Équipe de France', cat:'nations', emoji:'🇫🇷', price:89.99, oldPrice:null, badge:'new', sizes:['S','M','L','XL','XXL'], trending:true },
+  { id:2, name:'Brazil Away 2024', club:'Seleção Brasileira', cat:'nations', emoji:'🇧🇷', price:84.99, oldPrice:99.99, badge:'promo', sizes:['S','M','L','XL'], trending:true },
+  { id:3, name:'Argentina Home 2023', club:'Albiceleste', cat:'nations', emoji:'🇦🇷', price:94.99, oldPrice:null, badge:'hot', sizes:['S','M','L','XL','XXL'], trending:true },
+  { id:4, name:'Spain Euro 2024', club:'La Roja', cat:'nations', emoji:'🇪🇸', price:79.99, oldPrice:89.99, badge:'promo', sizes:['M','L','XL'], trending:false },
+  { id:5, name:'Germany Away 2024', club:'Die Mannschaft', cat:'nations', emoji:'🇩🇪', price:82.99, oldPrice:null, badge:'new', sizes:['S','M','L','XL'], trending:false },
+  { id:6, name:'Portugal Home 2024', club:'Seleção das Quinas', cat:'nations', emoji:'🇵🇹', price:87.99, oldPrice:null, badge:'new', sizes:['S','M','L','XL','XXL'], trending:true },
+  { id:7, name:'England Home 2024', club:'Three Lions', cat:'nations', emoji:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', price:82.99, oldPrice:null, badge:null, sizes:['S','M','L','XL'], trending:false },
+  { id:8, name:'Italy 3rd Kit 2024', club:'Azzurri', cat:'nations', emoji:'🇮🇹', price:86.99, oldPrice:null, badge:'new', sizes:['S','M','L','XL','XXL'], trending:false },
+  { id:9, name:'Morocco CAN 2023', club:'Atlas Lions', cat:'nations', emoji:'🇲🇦', price:74.99, oldPrice:84.99, badge:'promo', sizes:['M','L','XL'], trending:true },
+  { id:10, name:'Pays-Bas Home 2024', club:'Oranje', cat:'nations', emoji:'🇳🇱', price:83.99, oldPrice:null, badge:'hot', sizes:['S','M','L','XL'], trending:false },
+  { id:11, name:'Belgium Away 2024', club:'Les Diables Rouges', cat:'nations', emoji:'🇧🇪', price:79.99, oldPrice:null, badge:null, sizes:['S','M','L','XL'], trending:false },
+  { id:12, name:'Senegal AFCON 2023', club:'Lions de la Teranga', cat:'nations', emoji:'🇸🇳', price:69.99, oldPrice:89.99, badge:'promo', sizes:['M','L','XL'], trending:false },
+
+  // CLUBS
+  { id:13, name:'Real Madrid Home 24/25', club:'Real Madrid CF', cat:'clubs', emoji:'⚪', price:94.99, oldPrice:null, badge:'hot', sizes:['S','M','L','XL','XXL'], trending:true },
+  { id:14, name:'Barcelona Away 24/25', club:'FC Barcelona', cat:'clubs', emoji:'🔵', price:89.99, oldPrice:null, badge:'new', sizes:['S','M','L','XL'], trending:true },
+  { id:15, name:'PSG Home 24/25', club:'Paris Saint-Germain', cat:'clubs', emoji:'🔴', price:92.99, oldPrice:null, badge:'new', sizes:['S','M','L','XL','XXL'], trending:true },
+  { id:16, name:'Man City 3rd Kit 24/25', club:'Manchester City', cat:'clubs', emoji:'🩵', price:87.99, oldPrice:null, badge:'hot', sizes:['S','M','L','XL'], trending:false },
+  { id:17, name:'Liverpool Home 24/25', club:'Liverpool FC', cat:'clubs', emoji:'❤️', price:86.99, oldPrice:94.99, badge:'promo', sizes:['S','M','L','XL'], trending:false },
+  { id:18, name:'Bayern Away 24/25', club:'FC Bayern München', cat:'clubs', emoji:'🔴', price:88.99, oldPrice:null, badge:'new', sizes:['M','L','XL','XXL'], trending:true },
+  { id:19, name:'Juventus Home 24/25', club:'Juventus FC', cat:'clubs', emoji:'⚫', price:84.99, oldPrice:null, badge:null, sizes:['S','M','L','XL'], trending:false },
+  { id:20, name:'Chelsea Away 24/25', club:'Chelsea FC', cat:'clubs', emoji:'🔵', price:83.99, oldPrice:93.99, badge:'promo', sizes:['S','M','L','XL'], trending:false },
+  { id:21, name:'Dortmund Home 24/25', club:'Borussia Dortmund', cat:'clubs', emoji:'🟡', price:81.99, oldPrice:null, badge:'hot', sizes:['S','M','L','XL','XXL'], trending:true },
+  { id:22, name:'Inter Milan Away 24/25', club:'FC Internazionale', cat:'clubs', emoji:'🔵', price:85.99, oldPrice:null, badge:'new', sizes:['S','M','L','XL'], trending:false },
+  { id:23, name:'AC Milan Home 24/25', club:'AC Milan', cat:'clubs', emoji:'🔴', price:86.99, oldPrice:96.99, badge:'promo', sizes:['M','L','XL'], trending:false },
+  { id:24, name:'Arsenal 3rd Kit 24/25', club:'Arsenal FC', cat:'clubs', emoji:'🔴', price:84.99, oldPrice:null, badge:'new', sizes:['S','M','L','XL','XXL'], trending:true },
+  { id:25, name:'Atlético Away 24/25', club:'Atlético de Madrid', cat:'clubs', emoji:'❤️', price:82.99, oldPrice:null, badge:null, sizes:['S','M','L','XL'], trending:false },
+  { id:26, name:'Marseille Home 24/25', club:'Olympique de Marseille', cat:'clubs', emoji:'🤍', price:79.99, oldPrice:89.99, badge:'promo', sizes:['S','M','L','XL'], trending:false },
+
+  // VINTAGE
+  { id:27, name:'Brazil 1970 Rétro', club:'Seleção Brasileira', cat:'vintage', emoji:'🌟', price:69.99, oldPrice:99.99, badge:'promo', sizes:['S','M','L','XL'], trending:true },
+  { id:28, name:'France 1998 Champion', club:'Équipe de France', cat:'vintage', emoji:'🏆', price:74.99, oldPrice:104.99, badge:'promo', sizes:['S','M','L','XL','XXL'], trending:true },
+  { id:29, name:'Ajax 1994-95 Away', club:'AFC Ajax', cat:'vintage', emoji:'✨', price:64.99, oldPrice:89.99, badge:'promo', sizes:['M','L','XL'], trending:false },
+  { id:30, name:'AC Milan 1994 UCL', club:'AC Milan', cat:'vintage', emoji:'🔴', price:72.99, oldPrice:94.99, badge:'promo', sizes:['S','M','L','XL'], trending:true },
+  { id:31, name:'Argentina 1986 Rétro', club:'Albiceleste', cat:'vintage', emoji:'💛', price:79.99, oldPrice:109.99, badge:'promo', sizes:['S','M','L','XL','XXL'], trending:true },
+  { id:32, name:'Italy 2006 World Cup', club:'Azzurri', cat:'vintage', emoji:'🌍', price:67.99, oldPrice:89.99, badge:'promo', sizes:['S','M','L','XL'], trending:false },
+  { id:33, name:'Germany 2002 Away', club:'Die Mannschaft', cat:'vintage', emoji:'⚡', price:62.99, oldPrice:84.99, badge:'promo', sizes:['M','L','XL'], trending:false },
+  { id:34, name:'Barcelona 1999 UCL', club:'FC Barcelona', cat:'vintage', emoji:'💙', price:71.99, oldPrice:94.99, badge:'promo', sizes:['S','M','L','XL'], trending:true },
+  { id:35, name:'Real Madrid 2002 UCL', club:'Real Madrid CF', cat:'vintage', emoji:'👑', price:73.99, oldPrice:99.99, badge:'promo', sizes:['S','M','L','XL','XXL'], trending:false },
+  { id:36, name:'England 1966 Rétro', club:'Three Lions', cat:'vintage', emoji:'🦁', price:65.99, oldPrice:89.99, badge:'promo', sizes:['M','L','XL'], trending:false },
+  { id:37, name:'PSG 1994 Vintage', club:'Paris Saint-Germain', cat:'vintage', emoji:'🗼', price:68.99, oldPrice:89.99, badge:'promo', sizes:['S','M','L','XL'], trending:true },
+  { id:38, name:'Marseille 1993 UCL', club:'Olympique de Marseille', cat:'vintage', emoji:'🤍', price:70.99, oldPrice:94.99, badge:'promo', sizes:['S','M','L','XL','XXL'], trending:false },
+];
+
+// ═══════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════
+let cart = JSON.parse(localStorage.getItem('gj_cart') || '[]');
+let favorites = JSON.parse(localStorage.getItem('gj_favs') || '[]');
+let user = JSON.parse(localStorage.getItem('gj_user') || 'null');
+let currentPage = 'home';
+
+// ═══════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  buildMarquee();
+  animateStats();
+  renderTrending();
+  renderPromos();
+  updateCartBadge();
+  updateUserMenu();
+  initScrollReveal();
+  initHeaderScroll();
+});
+
+function buildMarquee() {
+  const items = ['Gasjersey','⚽ Nations','🏆 Clubs','⏳ Vintage','🔥 -40%','Livraison rapide','Maillots authentiques'];
+  const track = document.getElementById('marqueeTrack');
+  let html = '';
+  for (let i = 0; i < 4; i++) {
+    items.forEach(item => {
+      html += `<span class="marquee-item">${item}<span class="marquee-dot"> ✦ </span></span>`;
+    });
+  }
+  track.innerHTML = html;
+}
+
+function animateStats() {
+  const animate = (el, target, suffix='') => {
+    let n = 0;
+    const step = target / 60;
+    const t = setInterval(() => {
+      n = Math.min(n + step, target);
+      el.textContent = Math.floor(n) + suffix;
+      if (n >= target) clearInterval(t);
+    }, 20);
+  };
+  animate(document.getElementById('statJerseys'), 38, '+');
+  animate(document.getElementById('statNations'), 14);
+  animate(document.getElementById('statBrands'), 8);
+}
+
+function initScrollReveal() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const cards = e.target.querySelectorAll('.jersey-card, .cat-card');
+        cards.forEach((c, i) => {
+          setTimeout(() => c.classList.add('visible'), i * 80);
+        });
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('#trendingGrid, #promoGrid, .cat-grid').forEach(el => obs.observe(el));
+}
+
+function initHeaderScroll() {
+  window.addEventListener('scroll', () => {
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+  });
+}
+
+// ═══════════════════════════════════════════
+//  RENDER CARDS
+// ═══════════════════════════════════════════
+function renderCard(j) {
+  const isFav = favorites.includes(j.id);
+  const badgeHtml = j.badge ? `<span class="card-badge badge-${j.badge}">${j.badge === 'promo' ? '🏷️ Promo' : j.badge === 'new' ? '✨ Nouveau' : '🔥 Tendance'}</span>` : '';
+  const oldPriceHtml = j.oldPrice ? `<span class="price-old">${j.oldPrice.toFixed(2)} €</span>` : '';
+  return `
+    <div class="jersey-card" onclick="openProduct(${j.id})">
+      <div class="card-img-wrap">
+        <span class="jersey-emoji">${j.emoji}</span>
+        ${badgeHtml}
+        <button class="fav-btn ${isFav ? 'active' : ''}" onclick="toggleFav(event,${j.id})">${isFav ? '❤️' : '🤍'}</button>
+      </div>
+      <div class="card-body">
+        <div class="card-club">${j.club}</div>
+        <div class="card-name">${j.name}</div>
+        <div class="card-footer">
+          <div class="card-price">
+            <span class="price-now">${j.price.toFixed(2)} €</span>
+            ${oldPriceHtml}
+          </div>
+          <button class="card-add" onclick="quickAdd(event,${j.id})">+</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderTrending() {
+  const grid = document.getElementById('trendingGrid');
+  const trending = JERSEYS.filter(j => j.trending).slice(0, 8);
+  grid.innerHTML = trending.map(renderCard).join('');
+  setTimeout(() => grid.querySelectorAll('.jersey-card').forEach((c,i) => setTimeout(() => c.classList.add('visible'), i*80)), 100);
+}
+
+function renderPromos() {
+  const grid = document.getElementById('promoGrid');
+  const promos = JERSEYS.filter(j => j.badge === 'promo').slice(0, 4);
+  grid.innerHTML = promos.map(renderCard).join('');
+  setTimeout(() => grid.querySelectorAll('.jersey-card').forEach((c,i) => setTimeout(() => c.classList.add('visible'), i*80)), 100);
+}
+
+function renderShopGrid(filter = 'all') {
+  const shopGrid = document.getElementById('shopGrid');
+  let items = filter === 'all' ? JERSEYS : JERSEYS.filter(j => j.cat === filter || (filter === 'promo' && j.badge === 'promo') || (filter === 'trending' && j.trending));
+  shopGrid.innerHTML = items.map(renderCard).join('');
+  setTimeout(() => shopGrid.querySelectorAll('.jersey-card').forEach((c,i) => setTimeout(() => c.classList.add('visible'), i*60)), 50);
+}
+
+// ═══════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════
+const PAGE_CONFIG = {
+  home: { label: '', title: '' },
+  all: { label: '🛍️ Boutique', title: 'Tous les maillots', filter: 'all' },
+  nations: { label: '🌍 Nations', title: 'Maillots Nationaux', filter: 'nations' },
+  clubs: { label: '🏆 Clubs', title: 'Maillots de Club', filter: 'clubs' },
+  vintage: { label: '⏳ Vintage', title: 'Maillots Vintage', filter: 'vintage' },
+  promo: { label: '🏷️ Promos', title: 'En promotion', filter: 'promo' },
+  trending: { label: '⚡ Tendances', title: 'Les + populaires', filter: 'trending' },
+};
+
+function showPage(page) {
+  currentPage = page;
+  const homePage = document.getElementById('home-page');
+  const shopPage = document.getElementById('shop-page');
+  const favPage = document.getElementById('favorites-page');
+
+  homePage.classList.toggle('hidden', page !== 'home');
+  shopPage.classList.toggle('active', page !== 'home' && page !== 'favorites');
+  favPage.classList.toggle('active', page === 'favorites');
+
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  if (page !== 'home' && page !== 'favorites') {
+    const cfg = PAGE_CONFIG[page] || PAGE_CONFIG.all;
+    document.getElementById('shopPageLabel').textContent = cfg.label;
+    document.getElementById('shopPageTitle').textContent = cfg.title;
+    buildFilterBar(page);
+    renderShopGrid(cfg.filter || page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  if (page === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showFavoritesPage() {
+  currentPage = 'favorites';
+  document.getElementById('home-page').classList.add('hidden');
+  document.getElementById('shop-page').classList.remove('active');
+  document.getElementById('favorites-page').classList.add('active');
+  renderFavorites();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function buildFilterBar(activePage) {
+  const bar = document.getElementById('filterBar');
+  const filters = [
+    { key: 'all', label: 'Tous' },
+    { key: 'nations', label: '🌍 Nations' },
+    { key: 'clubs', label: '🏆 Clubs' },
+    { key: 'vintage', label: '⏳ Vintage' },
+    { key: 'promo', label: '🏷️ Promos' },
+    { key: 'trending', label: '⚡ Tendances' },
+  ];
+  bar.innerHTML = filters.map(f => `
+    <button class="filter-chip ${(f.key === activePage || (activePage === 'all' && f.key === 'all')) ? 'active' : ''}"
+      onclick="applyFilter('${f.key}',this)">${f.label}</button>
+  `).join('');
+}
+
+function applyFilter(filter, btn) {
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const cfg = PAGE_CONFIG[filter] || PAGE_CONFIG.all;
+  document.getElementById('shopPageLabel').textContent = cfg.label;
+  document.getElementById('shopPageTitle').textContent = cfg.title;
+  renderShopGrid(cfg.filter || filter);
+}
+
+// ═══════════════════════════════════════════
+//  PRODUCT MODAL
+// ═══════════════════════════════════════════
+let selectedSize = null;
+let currentProduct = null;
+
+function openProduct(id) {
+  const j = JERSEYS.find(x => x.id === id);
+  currentProduct = j;
+  selectedSize = null;
+  const isFav = favorites.includes(j.id);
+  const badgeHtml = j.badge ? `<span class="card-badge badge-${j.badge} product-modal-badge">${j.badge === 'promo' ? '🏷️ Promo' : j.badge === 'new' ? '✨ Nouveau' : '🔥 Tendance'}</span>` : '';
+  const oldPriceHtml = j.oldPrice ? `<span class="price-old">${j.oldPrice.toFixed(2)} €</span>` : '';
+  const savingHtml = j.oldPrice ? `<span style="font-size:12px;background:rgba(255,59,59,.15);color:var(--red);border:1px solid rgba(255,59,59,.2);padding:3px 8px;border-radius:6px;font-weight:600;">-${Math.round((1-j.price/j.oldPrice)*100)}%</span>` : '';
+  const sizesHtml = j.sizes.map(s => `<button class="size-btn" onclick="selectSize(this,'${s}')">${s}</button>`).join('');
+  
+  document.getElementById('productModalContent').innerHTML = `
+    <button class="modal-close" onclick="closeModal('productModal')">✕</button>
+    <div class="product-modal-img">
+      <span style="font-size:120px">${j.emoji}</span>
+      ${badgeHtml}
+    </div>
+    <div class="product-modal-sub">${j.club}</div>
+    <div class="product-modal-name">${j.name}</div>
+    <div class="product-modal-price">
+      <span class="price-now">${j.price.toFixed(2)} €</span>
+      ${oldPriceHtml}
+      ${savingHtml}
+    </div>
+    <div class="size-label">Choisir la taille</div>
+    <div class="size-grid" id="sizeGrid">${sizesHtml}</div>
+    <div class="product-actions">
+      <button class="btn-fav-modal ${isFav ? 'active' : ''}" id="favModalBtn" onclick="toggleFavModal(${j.id})">${isFav ? '❤️' : '🤍'}</button>
+      <button class="btn-primary" style="flex:1;padding:14px 24px" onclick="addToCartModal(${j.id})">Ajouter au panier 🛒</button>
+    </div>
+  `;
+  openModal('productModal');
+}
+
+function selectSize(btn, size) {
+  document.querySelectorAll('#sizeGrid .size-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedSize = size;
+}
+
+function addToCartModal(id) {
+  if (!selectedSize) { showToast('⚠️ Choisis une taille !'); return; }
+  const j = JERSEYS.find(x => x.id === id);
+  const existing = cart.find(c => c.id === id && c.size === selectedSize);
+  if (existing) { existing.qty++; }
+  else { cart.push({ id, size: selectedSize, qty: 1 }); }
+  saveCart(); updateCartBadge(); closeModal('productModal');
+  showToast(`✅ ${j.name} (${selectedSize}) ajouté au panier !`);
+}
+
+function quickAdd(e, id) {
+  e.stopPropagation();
+  const j = JERSEYS.find(x => x.id === id);
+  const defaultSize = j.sizes.includes('M') ? 'M' : j.sizes[0];
+  const existing = cart.find(c => c.id === id && c.size === defaultSize);
+  if (existing) existing.qty++;
+  else cart.push({ id, size: defaultSize, qty: 1 });
+  saveCart(); updateCartBadge();
+  showToast(`✅ ${j.name} ajouté (taille: ${defaultSize})`);
+}
+
+// ═══════════════════════════════════════════
+//  CART
+// ═══════════════════════════════════════════
+function toggleCart() {
+  const overlay = document.getElementById('cartOverlay');
+  overlay.classList.toggle('open');
+  if (overlay.classList.contains('open')) renderCart();
+}
+
+function handleCartOverlayClick(e) {
+  if (e.target === document.getElementById('cartOverlay')) toggleCart();
+}
+
+function renderCart() {
+  const container = document.getElementById('cartItems');
+  const footer = document.getElementById('cartFooter');
+  if (cart.length === 0) {
+    container.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Ton panier est vide.<br>Explore nos maillots !</p></div>`;
+    footer.style.display = 'none'; return;
+  }
+  footer.style.display = 'block';
+  container.innerHTML = cart.map(item => {
+    const j = JERSEYS.find(x => x.id === item.id);
+    return `
+      <div class="cart-item">
+        <div class="cart-item-img">${j.emoji}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${j.name}</div>
+          <div class="cart-item-meta">Taille: ${item.size} · ${j.club}</div>
+          <div class="cart-item-footer">
+            <span class="cart-item-price">${(j.price * item.qty).toFixed(2)} €</span>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="changeQty(${item.id},'${item.size}',-1)">−</button>
+              <span class="qty-num">${item.qty}</span>
+              <button class="qty-btn" onclick="changeQty(${item.id},'${item.size}',1)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+  const total = cart.reduce((sum, item) => {
+    const j = JERSEYS.find(x => x.id === item.id);
+    return sum + j.price * item.qty;
+  }, 0);
+  document.getElementById('cartTotal').textContent = total.toFixed(2) + ' €';
+}
+
+function changeQty(id, size, delta) {
+  const idx = cart.findIndex(c => c.id === id && c.size === size);
+  if (idx === -1) return;
+  cart[idx].qty += delta;
+  if (cart[idx].qty <= 0) cart.splice(idx, 1);
+  saveCart(); updateCartBadge(); renderCart();
+}
+
+function saveCart() { localStorage.setItem('gj_cart', JSON.stringify(cart)); }
+function updateCartBadge() {
+  const total = cart.reduce((s,c) => s + c.qty, 0);
+  const badge = document.getElementById('cartCount');
+  badge.textContent = total;
+  badge.style.display = total > 0 ? 'flex' : 'none';
+}
+
+// ═══════════════════════════════════════════
+//  FAVORITES
+// ═══════════════════════════════════════════
+function toggleFav(e, id) {
+  e.stopPropagation();
+  if (!user) { showToast('💡 Connecte-toi pour sauvegarder tes favoris !'); openModal('authModal'); return; }
+  const idx = favorites.indexOf(id);
+  if (idx >= 0) { favorites.splice(idx, 1); showToast('💔 Retiré des favoris'); }
+  else { favorites.push(id); showToast('❤️ Ajouté aux favoris !'); }
+  localStorage.setItem('gj_favs', JSON.stringify(favorites));
+  refreshFavButtons();
+}
+
+function toggleFavModal(id) {
+  if (!user) { showToast('💡 Connecte-toi pour sauvegarder tes favoris !'); closeModal('productModal'); openModal('authModal'); return; }
+  const idx = favorites.indexOf(id);
+  const btn = document.getElementById('favModalBtn');
+  if (idx >= 0) { favorites.splice(idx, 1); btn.textContent = '🤍'; btn.classList.remove('active'); showToast('💔 Retiré des favoris'); }
+  else { favorites.push(id); btn.textContent = '❤️'; btn.classList.add('active'); showToast('❤️ Ajouté aux favoris !'); }
+  localStorage.setItem('gj_favs', JSON.stringify(favorites));
+  refreshFavButtons();
+}
+
+function refreshFavButtons() {
+  document.querySelectorAll('.fav-btn').forEach(btn => {
+    const id = parseInt(btn.getAttribute('onclick').match(/\d+/)[0]);
+    btn.classList.toggle('active', favorites.includes(id));
+    btn.textContent = favorites.includes(id) ? '❤️' : '🤍';
+  });
+}
+
+function renderFavorites() {
+  const grid = document.getElementById('favGrid');
+  const empty = document.getElementById('favEmpty');
+  const favItems = JERSEYS.filter(j => favorites.includes(j.id));
+  if (favItems.length === 0) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  grid.innerHTML = favItems.map(renderCard).join('');
+  setTimeout(() => grid.querySelectorAll('.jersey-card').forEach((c,i) => setTimeout(() => c.classList.add('visible'), i*80)), 50);
+}
+
+// ═══════════════════════════════════════════
+//  AUTH
+// ═══════════════════════════════════════════
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  if (!email || !pass) { showToast('⚠️ Remplis tous les champs !'); return; }
+  const users = JSON.parse(localStorage.getItem('gj_users') || '[]');
+  const found = users.find(u => u.email === email && u.pass === pass);
+  if (!found) { showToast('❌ Email ou mot de passe incorrect.'); return; }
+  user = { name: found.name, email: found.email };
+  localStorage.setItem('gj_user', JSON.stringify(user));
+  closeModal('authModal'); updateUserMenu();
+  showToast(`🎉 Bienvenue ${user.name} !`);
+}
+
+function doRegister() {
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass = document.getElementById('regPass').value;
+  if (!name || !email || !pass) { showToast('⚠️ Remplis tous les champs !'); return; }
+  if (pass.length < 6) { showToast('⚠️ Mot de passe trop court (6 min.)'); return; }
+  const users = JSON.parse(localStorage.getItem('gj_users') || '[]');
+  if (users.find(u => u.email === email)) { showToast('⚠️ Email déjà utilisé.'); return; }
+  users.push({ name, email, pass });
+  localStorage.setItem('gj_users', JSON.stringify(users));
+  user = { name, email };
+  localStorage.setItem('gj_user', JSON.stringify(user));
+  closeModal('authModal'); updateUserMenu();
+  showToast(`🎉 Compte créé ! Bienvenue ${name} !`);
+}
+
+function doLogout() {
+  user = null; favorites = [];
+  localStorage.removeItem('gj_user');
+  localStorage.removeItem('gj_favs');
+  closeUserMenu(); updateUserMenu();
+  showToast('👋 À bientôt !');
+  refreshFavButtons();
+}
+
+function switchTab(tab) {
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+  document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+  document.getElementById('registerTab').classList.toggle('active', tab === 'register');
+}
+
+function updateUserMenu() {
+  const btn = document.getElementById('userIconBtn');
+  const content = document.getElementById('userMenuContent');
+  if (user) {
+    btn.textContent = '😊';
+    content.innerHTML = `
+      <div class="user-menu-header">
+        <div class="user-menu-name">👤 ${user.name}</div>
+        <div class="user-menu-email">${user.email}</div>
+      </div>
+      <div class="user-menu-item" onclick="showFavoritesPage();closeUserMenu()">❤️ Mes favoris</div>
+      <div class="user-menu-item" onclick="toggleCart();closeUserMenu()">🛒 Mon panier</div>
+      <div class="user-menu-item danger" onclick="doLogout()">🚪 Se déconnecter</div>
+    `;
+  } else {
+    btn.textContent = '👤';
+    content.innerHTML = `
+      <div class="user-menu-item" onclick="openModal('authModal');closeUserMenu()">🔑 Se connecter</div>
+      <div class="user-menu-item" onclick="switchTab('register');openModal('authModal');closeUserMenu()">✨ Créer un compte</div>
+    `;
+  }
+}
+
+function toggleUserMenu() {
+  document.getElementById('userMenu').classList.toggle('open');
+}
+function closeUserMenu() {
+  document.getElementById('userMenu').classList.remove('open');
+}
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#userMenu') && !e.target.closest('#userIconBtn')) closeUserMenu();
+});
+
+// ═══════════════════════════════════════════
+//  MODALS
+// ═══════════════════════════════════════════
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleModalClick(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+
+// ═══════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Close cart on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('cartOverlay').classList.remove('open');
+    closeModal('authModal'); closeModal('productModal');
+  }
+});
+</script>
+</body>
+</html>
